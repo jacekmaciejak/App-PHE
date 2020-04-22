@@ -31,13 +31,22 @@ const UIController = (function () {
 
 //GLOBAL APP CONTROLLER
 const controller = (function (budgetController, UIController) {
-  const DOM = UIController.getDOMstrings(); //Access to the DOMstrings object
+  const setupEventListeners = function () {
+    const DOM = UIController.getDOMstrings(); //Access to the DOMstrings object
+    document.querySelector(DOM.inputBtn).addEventListener("click", ctrlAddItem);
+    //Global function, confirm input field when press "enter" button
+    document.addEventListener("keypress", function (event) {
+      //event.which is the same as event.keyCode - support for all browsers
+      if (event.keyCode === 13 || event.which === 13) {
+        ctrlAddItem();
+      }
+    });
+  };
 
   //Get value from input
   const ctrlAddItem = function () {
     //1. Get the field input data
     const input = UIController.getInput();
-    console.log(input);
 
     //2. Add the item to the budget controller
     //3. Add the item to the UI
@@ -45,13 +54,12 @@ const controller = (function (budgetController, UIController) {
     //5. Display the budget on the UI
   };
 
-  document.querySelector(DOM.inputBtn).addEventListener("click", ctrlAddItem);
-
-  //Global function, confirm input field when press "enter" button
-  document.addEventListener("keypress", function (event) {
-    //event.which is the same as event.keyCode - support for all browsers
-    if (event.keyCode === 13 || event.which === 13) {
-      ctrlAddItem();
-    }
-  });
+  //All functions that wa want executed at the beginning
+  return {
+    init: function () {
+      setupEventListeners();
+    },
+  };
 })(budgetController, UIController);
+
+controller.init();
