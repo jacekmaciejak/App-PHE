@@ -74,17 +74,16 @@ const UIController = (function () {
         //return an object, everything below
         type: document.querySelector(DOMstrings.inputType).value, //take value of input +(inc) or -(exp)
         description: document.querySelector(DOMstrings.inputDescription).value,
-        value: document.querySelector(DOMstrings.inputValue).value,
+        //"value" return string. "parseFloat" convert string to a number.
+        value: parseFloat(document.querySelector(DOMstrings.inputValue).value),
       };
     },
     //obj:object,
     addListItem: function (obj, type) {
       let html, newHtml, element;
       //Create HTML string with placeholder text
-
       if (type === "inc") {
         element = DOMstrings.incomeContainer;
-
         html =
           '<div class="item clearfix" id="income-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
       } else if (type === "exp") {
@@ -138,25 +137,33 @@ const controller = (function (budgetController, UIController) {
     });
   };
 
+  const updateBudget = function () {
+    //1. Calculate the budget
+    //2.Return the budget
+    //3. Display the budget on the UI
+  };
+
   //Get value from input
   const ctrlAddItem = function () {
     let input, newItem;
 
     //1. Get the field input data
     input = UIController.getInput();
-
-    //2. Add the item to the budget controller
-    newItem = budgetController.addItem(
-      input.type,
-      input.description,
-      input.value
-    );
-    //3. Add the item to the UI
-    UIController.addListItem(newItem, input.type);
-    //4.Clear the fields
-    UIController.clearFields();
-    //5. Calculate the budget
-    //6. Display the budget on the UI
+    //isNaN() - is not a number, !isNaN() gives "fals" to not a numbers! Func to allows write only numbers in input.value field
+    if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
+      //2. Add the item to the budget controller
+      newItem = budgetController.addItem(
+        input.type,
+        input.description,
+        input.value
+      );
+      //3. Add the item to the UI
+      UIController.addListItem(newItem, input.type);
+      //4.Clear the fields
+      UIController.clearFields();
+      //5.Calculate and update budget
+      updateBudget();
+    }
   };
 
   //All functions that wa want executed at the beginning
