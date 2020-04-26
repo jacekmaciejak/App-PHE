@@ -101,6 +101,19 @@ const UIController = (function () {
       //Insert HTML into the DOM
       document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
     },
+    clearFields: function () {
+      let fields, fieldsArray;
+      fields = document.querySelectorAll(
+        DOMstrings.inputDescription + ", " + DOMstrings.inputValue
+      );
+      //Convert a list to an array because querySelectorAll returns a list!
+      fieldsArray = Array.prototype.slice.call(fields);
+      fieldsArray.forEach(function (current, index, array) {
+        current.value = "";
+      });
+      //Set cursor to input description field
+      fieldsArray[0].focus();
+    },
 
     //Exposing DOMstrings object the PUBLIC section.
     getDOMstrings: function () {
@@ -140,8 +153,10 @@ const controller = (function (budgetController, UIController) {
     );
     //3. Add the item to the UI
     UIController.addListItem(newItem, input.type);
-    //4. Calculate the budget
-    //5. Display the budget on the UI
+    //4.Clear the fields
+    UIController.clearFields();
+    //5. Calculate the budget
+    //6. Display the budget on the UI
   };
 
   //All functions that wa want executed at the beginning
