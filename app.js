@@ -154,6 +154,12 @@ const UIController = (function () {
       //Insert HTML into the DOM
       document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
     },
+
+    deleteListItem: function (selectorID) {
+      const el = document.getElementById(selectorID);
+      el.parentNode.removeChild(el);
+    },
+
     clearFields: function () {
       let fields, fieldsArray;
       fields = document.querySelectorAll(
@@ -253,7 +259,9 @@ const controller = (function (budgetController, UIController) {
       //1. Delete the item from the data structure
       budgetController.deleteItem(type, ID);
       //2. Delete the item from the UI
+      UIController.deleteListItem(itemID);
       //3. Update and show the new budget
+      updateBudget();
     }
   };
   //All functions that wa want executed at the beginning
