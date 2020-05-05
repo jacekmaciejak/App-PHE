@@ -147,6 +147,7 @@ const UIController = (function () {
     percentageLabel: ".budget__expenses--percentage",
     container: ".container",
     expensesPercLabel: ".item__percentage",
+    dateLabel: ".budget__title--month",
   };
 
   const formatNumber = function (num, type) {
@@ -259,6 +260,29 @@ comma separating the thousands
         }
       });
     },
+    displayMonth: function () {
+      let now, year, month, months;
+
+      now = new Date();
+      months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      month = now.getMonth();
+      year = now.getFullYear();
+      document.querySelector(DOMstrings.dateLabel).textContent =
+        months[month] + " " + year;
+    },
 
     //Exposing DOMstrings object the PUBLIC section.
     getDOMstrings: function () {
@@ -352,6 +376,7 @@ const controller = (function (budgetController, UIController) {
   //All functions that wa want executed at the beginning
   return {
     init: function () {
+      UIController.displayMonth();
       UIController.displayBudget({
         budget: 0,
         totalInc: 0,
