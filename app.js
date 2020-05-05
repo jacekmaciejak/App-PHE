@@ -171,6 +171,12 @@ comma separating the thousands
     return (type === "exp" ? "-" : "+") + " " + int + "." + dec;
   };
 
+  const nodeListForEach = function (list, callback) {
+    for (let i = 0; i < list.length; i++) {
+      callback(list[i], i);
+    }
+  };
+
   return {
     getInput: function () {
       return {
@@ -247,11 +253,7 @@ comma separating the thousands
     },
     displayPercentages: function (percentages) {
       const fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
-      const nodeListForEach = function (list, callback) {
-        for (let i = 0; i < list.length; i++) {
-          callback(list[i], i);
-        }
-      };
+
       nodeListForEach(fields, function (current, index) {
         if (percentages[index] > 0) {
           current.textContent = percentages[index] + "%";
@@ -284,6 +286,20 @@ comma separating the thousands
         months[month] + " " + year;
     },
 
+    changedType: function () {
+      const fields = document.querySelectorAll(
+        DOMstrings.inputType +
+          "," +
+          DOMstrings.inputDescription +
+          "," +
+          DOMstrings.inputValue
+      );
+      nodeListForEach(fields, function (cur) {
+        cur.classList.toggle("red-focus");
+      });
+      document.querySelector(DOMstrings.inputBtn).classList.toggle("red");
+    },
+
     //Exposing DOMstrings object the PUBLIC section.
     getDOMstrings: function () {
       return DOMstrings;
@@ -308,6 +324,9 @@ const controller = (function (budgetController, UIController) {
     document
       .querySelector(DOM.container)
       .addEventListener("click", ctrlDeleteItem);
+    document
+      .querySelector(DOM.inputType)
+      .addEventListener("change", UIController.changedType);
   };
 
   const updateBudget = function () {
