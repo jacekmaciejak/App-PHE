@@ -1,5 +1,5 @@
 //--------------------------------------------------
-//-----------------BUDGET CONTROLLER
+//-----------------BUDGET CONTROLLER----------------
 //--------------------------------------------------
 
 const budgetController = (function () {
@@ -37,7 +37,7 @@ const budgetController = (function () {
   };
 
   //inc:income, exp:expenses
-  const data = {
+  let data = {
     allItems: {
       exp: [],
       inc: [],
@@ -123,9 +123,9 @@ const budgetController = (function () {
       };
     },
 
-    testing: function () {
-      console.log(data);
-    },
+    // testing: function () {
+    //   console.log(data);
+    // },
   };
 })();
 
@@ -194,11 +194,11 @@ comma separating the thousands
       if (type === "inc") {
         element = DOMstrings.incomeContainer;
         html =
-          '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+          '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%$</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
       } else if (type === "exp") {
         element = DOMstrings.expensesContainer;
         html =
-          '<div class="item clearfix" id = "exp-%id%" ><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div>';
+          '<div class="item clearfix" id = "exp-%id%" ><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%$</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div>';
       }
 
       //Replace the placeholder text with some actual data
@@ -232,17 +232,12 @@ comma separating the thousands
     displayBudget: function (obj) {
       let type;
       obj.budget > 0 ? (type = "inc") : (type = "exp");
-      document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(
-        obj.budget,
-        type
-      );
-      document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(
-        obj.totalInc,
-        "inc"
-      );
-      document.querySelector(
-        DOMstrings.expensesLabel
-      ).textContent = formatNumber(obj.totalExp, "exp");
+      document.querySelector(DOMstrings.budgetLabel).textContent =
+        formatNumber(obj.budget, type) + "$";
+      document.querySelector(DOMstrings.incomeLabel).textContent =
+        formatNumber(obj.totalInc, "inc") + "$";
+      document.querySelector(DOMstrings.expensesLabel).textContent =
+        formatNumber(obj.totalExp, "exp") + "$";
 
       if (obj.percentage > 0) {
         document.querySelector(DOMstrings.percentageLabel).textContent =
@@ -299,7 +294,6 @@ comma separating the thousands
       });
       document.querySelector(DOMstrings.inputBtn).classList.toggle("red");
     },
-
     //Exposing DOMstrings object the PUBLIC section.
     getDOMstrings: function () {
       return DOMstrings;
@@ -308,7 +302,7 @@ comma separating the thousands
 })();
 
 //--------------------------------------------------
-//---------------GLOBAL APP CONTROLLER
+//---------------GLOBAL APP CONTROLLER--------------
 //--------------------------------------------------
 const controller = (function (budgetController, UIController) {
   const setupEventListeners = function () {
@@ -334,7 +328,6 @@ const controller = (function (budgetController, UIController) {
     budgetController.calculateBudget();
     //2. Return the budget
     let budget = budgetController.getBudget();
-
     //3. Display the budget on the UI
     UIController.displayBudget(budget);
   };
@@ -392,6 +385,7 @@ const controller = (function (budgetController, UIController) {
       updatePercentages();
     }
   };
+
   //All functions that wa want executed at the beginning
   return {
     init: function () {
