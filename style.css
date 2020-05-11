@@ -54,13 +54,13 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 80%;
+    width: 90%;
     /* color: #fff; */
 }
 
 .budget__left,
 .budget__right {
-    width: 40%;
+    width: 45%;
 }
 
 .budget__left {
@@ -82,7 +82,7 @@ body {
 }
 
 .budget__value {
-    font-size: 46px;
+    font-size: 42px;
     text-align: center;
     letter-spacing: 2px;
 }
@@ -338,4 +338,48 @@ h2 {
 
 .unpaid:hover .item__description {
     font-weight: 900;
+}
+
+/**********************************************
+*** MEDIA
+**********************************************/
+
+@media screen and (max-width: 800px) {
+    .budget {
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .budget__left,
+    .budget__right {
+        width: 90%;
+    }
+
+    .income,
+    .expenses {
+        width: 45%;
+    }
+
+}
+
+@media screen and (max-width:600px) {
+    .budget__value {
+        font-size: 30px;
+    }
+
+    .income__list,
+    .expenses__list {
+        display: flex;
+        justify-content: center;
+    }
+
+    .item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .item__description {
+        text-align: center;
+    }
 }
