@@ -122,10 +122,6 @@ const budgetController = (function () {
         percentage: data.percentage,
       };
     },
-
-    // testing: function () {
-    //   console.log(data);
-    // },
   };
 })();
 
