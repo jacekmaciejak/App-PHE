@@ -364,7 +364,8 @@ const controller = (function (budgetController, UIController) {
 
   const ctrlDeleteItem = function (event) {
     let itemID, splitID, type, ID;
-    itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+    itemID =
+      event.target.parentNode.parentNode.parentNode.parentNode.parentNode.id;
     if (itemID) {
       //inc-1
       splitID = itemID.split("-");
